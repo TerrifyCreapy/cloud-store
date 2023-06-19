@@ -19,14 +19,26 @@ const decorators_1 = require("@nestjs/swagger/dist/decorators");
 const platform_express_1 = require("@nestjs/platform-express");
 const storage_1 = require("./storage");
 const swagger_1 = require("@nestjs/swagger");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
+const common_2 = require("@nestjs/common");
 let FilesController = class FilesController {
     constructor(filesService) {
         this.filesService = filesService;
+    }
+    findAll() {
+        console.log("completed\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        return this.filesService.findAll();
     }
     create(file) {
         return this.filesService.create(file);
     }
 };
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], FilesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
@@ -52,6 +64,8 @@ __decorate([
 FilesController = __decorate([
     (0, common_1.Controller)('files'),
     (0, decorators_1.ApiTags)('files'),
+    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    (0, decorators_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [files_service_1.FilesService])
 ], FilesController);
 exports.FilesController = FilesController;

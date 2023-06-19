@@ -24,9 +24,11 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("../user/user.service");
 const bcrypt = require("bcryptjs");
+const jwt_1 = require("@nestjs/jwt");
 let AuthService = class AuthService {
-    constructor(userService) {
+    constructor(userService, jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
     async validateUser(email, pass) {
         const user = await this.userService.findByEmail(email);
@@ -39,10 +41,26 @@ let AuthService = class AuthService {
         }
         return null;
     }
+    async createUser(dto) {
+        try {
+            const user = await this.userService.create(dto);
+            if (!user)
+                throw new common_1.ForbiddenException("Error with register!");
+            return { token: this.jwtService.sign({ id: user.id }) };
+        }
+        catch (e) {
+            console.error(e);
+            throw new common_1.ForbiddenException("Error with register!");
+        }
+    }
+    login(user) {
+        return { token: this.jwtService.sign({ id: user.id }) };
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        jwt_1.JwtService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

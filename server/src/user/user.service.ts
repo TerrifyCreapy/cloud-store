@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { genSalt, hash } from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,10 @@ export class UserService {
     return user;
   }
 
-  create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto) {
+    const saltCount = 10;
+    const salt = await genSalt(saltCount);
+    dto.password = await hash(dto.password, salt);
     const user = this.repository.save(dto);
     return user;
   }

@@ -1,10 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from "bcryptjs";
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { JwtService } from '@nestjs/jwt';
+import { UserEntity } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UserService) {}
+    constructor(
+        private userService: UserService,
+        private jwtService: JwtService,
+        ) {}
 
     async validateUser(email: string, pass: string): Promise<any> {
         const user = await this.userService.findByEmail(email);
@@ -22,6 +28,22 @@ export class AuthService {
         return null;
     }
 
-    
+    async createUser(dto: CreateUserDto) {
+        try {
+            const user = await this.userService.create(dto);
+            if(!user) throw new ForbiddenException("Error with register!");
+            return {token: this.jwtService.sign({id: user.id})};
+        }
+        catch(e) {
+            console.error(e);
+            throw new ForbiddenException("Error with register!")
+        }
+    }
+
+    login(user: UserEntity) {
+        return {token: this.jwtService.sign({id: user.id})};
+    }
+
+
 
 }

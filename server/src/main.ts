@@ -17,10 +17,15 @@ async function bootstrap() {
     .setTitle('cloud-store')
     .setDescription('Cloud store api')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('cloud')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup('swagger', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true
+    }
+  });
 
   await app.listen(3000);
 }

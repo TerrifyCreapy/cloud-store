@@ -21,11 +21,25 @@ let FilesService = class FilesService {
     constructor(repository) {
         this.repository = repository;
     }
-    create(createFileDto) {
-        return this.repository.create(createFileDto);
+    create(file, userId) {
+        return this.repository.save({
+            filename: file.filename,
+            original_filename: file.originalname,
+            size: file.size,
+            mime_type: file.mimetype,
+            user: { id: userId },
+        });
     }
-    findAll() {
-        return this.repository.find();
+    findAll(id, fileType) {
+        const dbq = this.repository.createQueryBuilder("files");
+        dbq.where("files.userId = :userId", { userId: id });
+        if (fileType === "photos") {
+            dbq.andWhere("files.mime_type ILIKE :type", { type: "%image%" });
+        }
+        if (fileType === "trash") {
+            dbq.withDeleted().andWhere("files.deletedAt IS NOT NULL");
+        }
+        return dbq.getMany();
     }
     findOne(id) {
         return this.repository.findOne({ where: { id } });
@@ -33,8 +47,19 @@ let FilesService = class FilesService {
     update(id, updateFileDto) {
         return `This action updates a #${id} file`;
     }
-    remove(id) {
-        return `This action removes a #${id} file`;
+    remove(id, del) {
+        try {
+            let delArray = del.split(",");
+            const dbq = this.repository.createQueryBuilder("files");
+            dbq.where("id IN (:...ids) AND userId = :userId", {
+                ids: delArray,
+                userId: id
+            });
+            return dbq.softDelete().execute();
+        }
+        catch (e) {
+            console.error(e);
+        }
     }
 };
 FilesService = __decorate([

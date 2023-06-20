@@ -9,9 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileEntity = void 0;
+exports.FileEntity = exports.FilesType = void 0;
 const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
+var FilesType;
+(function (FilesType) {
+    FilesType["PHOTOS"] = "photos";
+    FilesType["TRASH"] = "trash";
+})(FilesType = exports.FilesType || (exports.FilesType = {}));
 let FileEntity = class FileEntity {
 };
 __decorate([

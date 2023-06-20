@@ -17,14 +17,40 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const dist_1 = require("@nestjs/swagger/dist");
+const user_id_decorator_1 = require("../decorators/user-id.decorator");
+const jwt_guard_1 = require("../auth/guards/jwt.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
+    }
+    me(id) {
+        try {
+            if (!id)
+                throw new Error("No id of user!");
+            const user = this.userService.findById(id);
+            if (!user)
+                throw new Error("No user with such id!");
+            return user;
+        }
+        catch (e) {
+            if (e)
+                throw new Error(e);
+            else
+                throw new common_1.ForbiddenException("Error with getting me!");
+        }
     }
     create(createUserDto) {
         return this.userService.create(createUserDto);
     }
 };
+__decorate([
+    (0, common_1.Get)('/me'),
+    (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    __param(0, (0, user_id_decorator_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "me", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -35,6 +61,7 @@ __decorate([
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     (0, dist_1.ApiTags)('users'),
+    (0, dist_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

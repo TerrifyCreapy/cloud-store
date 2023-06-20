@@ -40,7 +40,7 @@ let AuthController = class AuthController {
 };
 __decorate([
     (0, common_1.UseGuards)(local_guard_1.LocalAuthGuard),
-    (0, common_1.Post)('auth/login'),
+    (0, common_1.Post)('login'),
     (0, swagger_1.ApiBody)({ type: create_user_dto_1.CreateUserDto }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),

@@ -21,22 +21,28 @@ const storage_1 = require("./storage");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_guard_1 = require("../auth/guards/jwt.guard");
 const common_2 = require("@nestjs/common");
+const user_id_decorator_1 = require("../decorators/user-id.decorator");
+const file_entity_1 = require("./entities/file.entity");
 let FilesController = class FilesController {
     constructor(filesService) {
         this.filesService = filesService;
     }
-    findAll() {
-        console.log("completed\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        return this.filesService.findAll();
+    findAll(id, fileType) {
+        return this.filesService.findAll(id, fileType);
     }
-    create(file) {
-        return this.filesService.create(file);
+    create(file, id) {
+        return this.filesService.create(file, id);
+    }
+    delete(id, del) {
+        return this.filesService.remove(id, del);
     }
 };
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, user_id_decorator_1.UserId)()),
+    __param(1, (0, common_1.Query)('type')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", void 0)
 ], FilesController.prototype, "findAll", null);
 __decorate([
@@ -57,10 +63,19 @@ __decorate([
         },
     }),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({ validators: [new common_1.MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })] }))),
+    __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Number]),
     __metadata("design:returntype", void 0)
 ], FilesController.prototype, "create", null);
+__decorate([
+    (0, common_1.Delete)(),
+    __param(0, (0, user_id_decorator_1.UserId)()),
+    __param(1, (0, common_1.Query)('delete_arr')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", void 0)
+], FilesController.prototype, "delete", null);
 FilesController = __decorate([
     (0, common_1.Controller)('files'),
     (0, decorators_1.ApiTags)('files'),

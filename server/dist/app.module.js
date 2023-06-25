@@ -21,7 +21,9 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot(),
+            config_1.ConfigModule.forRoot({
+                isGlobal: true
+            }),
             typeorm_1.TypeOrmModule.forRoot(orm_config_1.default),
             user_module_1.UserModule,
             files_module_1.FilesModule,

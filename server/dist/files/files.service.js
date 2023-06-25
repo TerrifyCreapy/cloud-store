@@ -41,8 +41,21 @@ let FilesService = class FilesService {
         }
         return dbq.getMany();
     }
-    findOne(id) {
-        return this.repository.findOne({ where: { id } });
+    async findOne(name) {
+        try {
+            const dbq = this.repository.createQueryBuilder("files");
+            dbq.where("filename = :filename", { filename: name });
+            const file = await dbq.getOne();
+            if (file === null || file === void 0 ? void 0 : file.private)
+                throw new Error("File is private");
+            if (!file)
+                throw new Error("No file");
+            return file;
+        }
+        catch (e) {
+            console.error(e.message);
+            throw new common_1.ForbiddenException(e.message);
+        }
     }
     update(id, updateFileDto) {
         return `This action updates a #${id} file`;

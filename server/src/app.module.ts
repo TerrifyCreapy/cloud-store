@@ -10,7 +10,9 @@ import config from './orm_config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     TypeOrmModule.forRoot(config),
     UserModule,
     FilesModule,

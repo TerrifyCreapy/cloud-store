@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { FileEntity, FilesType } from './entities/file.entity';
@@ -36,8 +36,24 @@ export class FilesService {
     return dbq.getMany();
   }
 
-  findOne(id: number) {
-    return this.repository.findOne({where: {id}});
+  async findOne(name: string) {
+    try {
+      const dbq = this.repository.createQueryBuilder("files");
+      dbq.where("filename = :filename", {filename: name});
+      const file = await dbq.getOne();
+      if(file?.private) throw new Error("File is private");
+      if(!file) throw new Error("No file")
+      return file;
+    }
+    catch(e: unknown) {
+      console.error((e as Error).message);
+      throw new ForbiddenException((e as Error).message)
+    }
+    
+
+    
+
+    
   }
 
   update(id: number, updateFileDto: UpdateFileDto) {

@@ -30,6 +30,12 @@ let FilesController = class FilesController {
     findAll(id, fileType) {
         return this.filesService.findAll(id, fileType);
     }
+    async findById(name) {
+        return await this.filesService.findOne(name);
+    }
+    makeAnPublic(name) {
+        return this.filesService;
+    }
     create(file, id) {
         return this.filesService.create(file, id);
     }
@@ -39,12 +45,28 @@ let FilesController = class FilesController {
 };
 __decorate([
     (0, common_1.Get)(),
+    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
     __param(0, (0, user_id_decorator_1.UserId)()),
     __param(1, (0, common_1.Query)('type')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", void 0)
 ], FilesController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(":name"),
+    __param(0, (0, common_1.Param)("name")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FilesController.prototype, "findById", null);
+__decorate([
+    (0, common_1.Post)(":name"),
+    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)("name")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], FilesController.prototype, "makeAnPublic", null);
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
@@ -62,6 +84,7 @@ __decorate([
             },
         },
     }),
+    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({ validators: [new common_1.MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })] }))),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
@@ -70,6 +93,7 @@ __decorate([
 ], FilesController.prototype, "create", null);
 __decorate([
     (0, common_1.Delete)(),
+    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
     __param(0, (0, user_id_decorator_1.UserId)()),
     __param(1, (0, common_1.Query)('delete_arr')),
     __metadata("design:type", Function),
@@ -79,7 +103,6 @@ __decorate([
 FilesController = __decorate([
     (0, common_1.Controller)('files'),
     (0, decorators_1.ApiTags)('files'),
-    (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, decorators_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [files_service_1.FilesService])
 ], FilesController);

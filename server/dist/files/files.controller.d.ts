@@ -5,6 +5,8 @@ export declare class FilesController {
     private readonly filesService;
     constructor(filesService: FilesService);
     findAll(id: number, fileType: FilesType): Promise<import("./entities/file.entity").FileEntity[]>;
+    findById(name: string): Promise<import("./entities/file.entity").FileEntity>;
+    makeAnPublic(name: string): FilesService;
     create(file: Express.Multer.File, id: number): Promise<{
         filename: string;
         original_filename: string;

@@ -18,6 +18,8 @@ export class FileEntity {
   size: number;
   @Column()
   mime_type: string;
+  @Column({default: true})
+  private: boolean;
   @DeleteDateColumn()
   deletedAt?: Date;
   @ManyToOne(() => UserEntity, (user) => user.files)

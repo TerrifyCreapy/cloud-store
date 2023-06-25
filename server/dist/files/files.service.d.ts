@@ -15,7 +15,7 @@ export declare class FilesService {
         };
     } & FileEntity>;
     findAll(id: number, fileType: FilesType): Promise<FileEntity[]>;
-    findOne(id: number): Promise<FileEntity>;
+    findOne(name: string): Promise<FileEntity>;
     update(id: number, updateFileDto: UpdateFileDto): string;
     remove(id: number, del: string): Promise<import("typeorm").UpdateResult>;
 }

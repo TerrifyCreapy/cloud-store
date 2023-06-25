@@ -9,6 +9,7 @@ export declare class FileEntity {
     original_filename: string;
     size: number;
     mime_type: string;
+    private: boolean;
     deletedAt?: Date;
     user: UserEntity;
 }

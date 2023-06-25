@@ -40,6 +40,10 @@ __decorate([
     __metadata("design:type", String)
 ], FileEntity.prototype, "mime_type", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], FileEntity.prototype, "private", void 0);
+__decorate([
     (0, typeorm_1.DeleteDateColumn)(),
     __metadata("design:type", Date)
 ], FileEntity.prototype, "deletedAt", void 0);

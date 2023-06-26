@@ -1,2 +1,3 @@
-export const auth_path = "/auth";
-export const register_path = "/auth?register=true"
+export const auth_path = "/";
+export const register_path = "/?register=true";
+export const files_path = "/files";

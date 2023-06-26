@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Body, ForbiddenException } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Body, ForbiddenException, Response } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
@@ -15,7 +15,7 @@ export class AuthController {
   @Post('login')
   @ApiBody({type: CreateUserDto})
   async login(@Request() req) {
-    return this.authService.login(req.user as UserEntity);
+    return this.authService.login(req.user as UserEntity);;
   }
 
   @Post('/register')

@@ -6,10 +6,6 @@ export class CreateUserDto {
     })
     email: string;
     @ApiProperty({
-        default: "Grigoriy"
-    })
-    fullname: string;
-    @ApiProperty({
         default: "123"
     })
     password: string;

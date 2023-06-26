@@ -3,8 +3,13 @@ import { Card, CardContent, CardActions, Typography } from "@mui/material";
 import Input from "./Input";
 import { validateEmail, validatePassword } from "../utils/validators";
 import HaveAccount from "./HaveAccount";
+import UserApi from "../api/user-api.ts";
 
-const AuthCard: FC = () => {
+interface IAuthCard {
+    onAction: (email: string, password: string) => Promise<void>;
+}
+
+const AuthCard: FC<IAuthCard> = ({ onAction }) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isCorrect, setIsCorrect] = useState<boolean>(true);
@@ -29,6 +34,10 @@ const AuthCard: FC = () => {
         } else {
             setIsCorrect(true);
         }
+    };
+
+    const onSubmit = async () => {
+        await onAction(email, password);
     };
 
     return (
@@ -66,7 +75,7 @@ const AuthCard: FC = () => {
                     gap: "10px",
                 }}
             >
-                <HaveAccount isCorrect={isCorrect} />
+                <HaveAccount isCorrect={isCorrect} onSubmit={onSubmit} />
             </CardActions>
         </Card>
     );

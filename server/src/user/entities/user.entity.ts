@@ -9,8 +9,6 @@ export class UserEntity {
   email: string;
   @Column()
   password: string;
-  @Column()
-  fullname: string;
   @OneToMany(() => FileEntity, (file) => file.user)
   files: FileEntity[];
 }

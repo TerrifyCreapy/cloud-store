@@ -44,9 +44,10 @@ let AuthService = class AuthService {
     async createUser(dto) {
         try {
             const user = await this.userService.create(dto);
+            console.log(user);
             if (!user)
-                throw new common_1.ForbiddenException("Error with register!");
-            return { token: this.jwtService.sign({ id: user.id }) };
+                return null;
+            return { token: this.jwtService.sign({ id: user.id, email: user.email }) };
         }
         catch (e) {
             console.error(e);
@@ -54,7 +55,7 @@ let AuthService = class AuthService {
         }
     }
     login(user) {
-        return { token: this.jwtService.sign({ id: user.id }) };
+        return { token: this.jwtService.sign({ id: user.id, email: user.email }), email: user.email, id: user.id };
     }
 };
 AuthService = __decorate([

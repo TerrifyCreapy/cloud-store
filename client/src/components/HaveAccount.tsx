@@ -4,9 +4,10 @@ import { useSearchParams } from "react-router-dom";
 
 interface IHaveAccount {
     isCorrect: boolean;
+    onSubmit: () => void;
 }
 
-const HaveAccount: FC<IHaveAccount> = ({ isCorrect }) => {
+const HaveAccount: FC<IHaveAccount> = ({ isCorrect, onSubmit }) => {
     const [params, setParams] = useSearchParams();
     const [signUp, setSignUp] = useState<boolean>(
         params.get("register") ? true : false,
@@ -22,8 +23,9 @@ const HaveAccount: FC<IHaveAccount> = ({ isCorrect }) => {
     return (
         <>
             <Button
-                disabled={isCorrect}
+                disabled={false}
                 sx={{ alignSelf: "flex-end", marginRight: 2 }}
+                onClick={onSubmit}
             >
                 {signUp ? "Signin" : "Signup"}
             </Button>
@@ -32,7 +34,7 @@ const HaveAccount: FC<IHaveAccount> = ({ isCorrect }) => {
                     {signUp ? "Don't" : "Already"} have an account?{" "}
                 </Typography>
                 <Button onClick={onChangeAuth}>
-                    {signUp ? "Signin" : "Signup"}
+                    {signUp ? "Signup" : "Signin"}
                 </Button>
             </div>
         </>

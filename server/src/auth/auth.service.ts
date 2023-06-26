@@ -31,8 +31,9 @@ export class AuthService {
     async createUser(dto: CreateUserDto) {
         try {
             const user = await this.userService.create(dto);
-            if(!user) throw new ForbiddenException("Error with register!");
-            return {token: this.jwtService.sign({id: user.id})};
+            console.log(user);
+            if(!user) return null;
+            return {token: this.jwtService.sign({id: user.id, email: user.email})};
         }
         catch(e) {
             console.error(e);
@@ -41,7 +42,7 @@ export class AuthService {
     }
 
     login(user: UserEntity) {
-        return {token: this.jwtService.sign({id: user.id})};
+        return {token: this.jwtService.sign({id: user.id, email: user.email}), email: user.email, id: user.id};
     }
 
 

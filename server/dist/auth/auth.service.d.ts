@@ -12,5 +12,7 @@ export declare class AuthService {
     }>;
     login(user: UserEntity): {
         token: string;
+        email: string;
+        id: number;
     };
 }

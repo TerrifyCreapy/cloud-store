@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 interface IHaveAccount {
     isCorrect: boolean;
-    onSubmit: () => void;
+    onSubmit: (action: "login" | "reg") => void;
 }
 
 const HaveAccount: FC<IHaveAccount> = ({ isCorrect, onSubmit }) => {
@@ -23,11 +23,11 @@ const HaveAccount: FC<IHaveAccount> = ({ isCorrect, onSubmit }) => {
     return (
         <>
             <Button
-                disabled={false}
+                disabled={signUp ? isCorrect : false}
                 sx={{ alignSelf: "flex-end", marginRight: 2 }}
-                onClick={onSubmit}
+                onClick={() => onSubmit(signUp ? "reg" : "login")}
             >
-                {signUp ? "Signin" : "Signup"}
+                {signUp ? "Signup" : "Signin"}
             </Button>
             <div>
                 <Typography component="span" sx={{ textAlign: "center" }}>

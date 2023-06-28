@@ -1,12 +1,15 @@
 import { FC, useState, ChangeEvent } from "react";
 import { Card, CardContent, CardActions, Typography } from "@mui/material";
-import Input from "./Input";
-import { validateEmail, validatePassword } from "../utils/validators";
-import HaveAccount from "./HaveAccount";
-import UserApi from "../api/user-api.ts";
+import Input from "../Input/index.tsx";
+import { validateEmail, validatePassword } from "../../utils/validators.ts";
+import HaveAccount from "../HaveAccount/index.tsx";
 
 interface IAuthCard {
-    onAction: (email: string, password: string) => Promise<void>;
+    onAction: (
+        email: string,
+        password: string,
+        onAction: "login" | "reg",
+    ) => Promise<void>;
 }
 
 const AuthCard: FC<IAuthCard> = ({ onAction }) => {
@@ -36,8 +39,8 @@ const AuthCard: FC<IAuthCard> = ({ onAction }) => {
         }
     };
 
-    const onSubmit = async () => {
-        await onAction(email, password);
+    const onSubmit = async (action: "login" | "reg") => {
+        await onAction(email, password, action);
     };
 
     return (

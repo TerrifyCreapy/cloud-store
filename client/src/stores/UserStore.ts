@@ -18,6 +18,24 @@ class UserStore {
         this.user = user;
     }
 
+    async register(email: string, password: string): Promise<boolean> {
+        try {
+            const data = await UserApi.register(email, password);
+            if(data) {
+                this.setUser({id: data.id, email: data.email});
+                return true;
+            }
+            else {
+                this.setUser(null);
+                return false;
+            }
+        }
+        catch(e) {
+            console.log(e);
+            return false;
+        }
+    }
+
     async login(email: string, password: string): Promise<boolean> {
         try {
             const data = await UserApi.login(email, password);

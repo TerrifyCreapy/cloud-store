@@ -1,13 +1,13 @@
 import { FC, useState, ChangeEvent } from "react";
 import { OutlinedInput } from "@mui/material";
-import CompletedIcon from "./Icons/CompletedIcon";
+import CompletedIcon from "../Icons/CompletedIcon";
 
 interface IInput {
     value: string;
     onChange: (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => void;
-    validator: (value: string) => boolean;
+    validator?: (value: string) => boolean;
     placeholder?: string;
     password?: boolean;
 }
@@ -26,13 +26,13 @@ const Input: FC<IInput> = ({
     const onChangeHandler = (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
-        setError(!validator(event.target.value));
+        if (validator) setError(!validator(event.target.value));
         onChange(event);
     };
 
     const onFocus = () => {
         setTouched(true);
-        setError(!validator(value));
+        if (validator) setError(!validator(value));
     };
 
     return (

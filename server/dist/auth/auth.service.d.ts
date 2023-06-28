@@ -9,6 +9,8 @@ export declare class AuthService {
     validateUser(email: string, pass: string): Promise<any>;
     createUser(dto: CreateUserDto): Promise<{
         token: string;
+        email: string;
+        id: number;
     }>;
     login(user: UserEntity): {
         token: string;

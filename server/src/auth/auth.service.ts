@@ -33,7 +33,7 @@ export class AuthService {
             const user = await this.userService.create(dto);
             console.log(user);
             if(!user) return null;
-            return {token: this.jwtService.sign({id: user.id, email: user.email})};
+            return {token: this.jwtService.sign({id: user.id, email: user.email}), email: user.email, id: user.id};
         }
         catch(e) {
             console.error(e);

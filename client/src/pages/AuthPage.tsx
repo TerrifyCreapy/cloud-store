@@ -10,8 +10,18 @@ const AuthPage: FC = () => {
 
     const nav = useNavigate();
 
-    const onAction = async (email: string, password: string): Promise<void> => {
-        const data = await userStore.login(email, password);
+    const onAction = async (
+        email: string,
+        password: string,
+        onAction: "login" | "reg" = "login",
+    ): Promise<void> => {
+        let data = null;
+        if (onAction == "login") {
+            data = await userStore.login(email, password);
+        } else {
+            data = await userStore.register(email, password);
+        }
+
         if (data) nav(files_path);
     };
 

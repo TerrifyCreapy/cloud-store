@@ -10,5 +10,7 @@ export declare class AuthController {
     }>;
     register(dto: CreateUserDto): Promise<{
         token: string;
+        email: string;
+        id: number;
     }>;
 }

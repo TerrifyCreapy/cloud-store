@@ -1,13 +1,12 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, ChangeEvent } from "react";
 import { Card, Container, Button, List } from "@mui/material";
-import { Upload } from "@mui/icons-material";
 import { useSearchParams } from "react-router-dom";
 import useStore from "../hooks/useStore";
+import Upload from "../components/Upload";
 
 const FilesPage: FC = () => {
     const pages = ["files", "images", "trash"];
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams);
     const [active, setActive] = useState<number>(
         !searchParams.get("type")
             ? 0
@@ -25,23 +24,28 @@ const FilesPage: FC = () => {
         filesStore.getFiles(userStore.user?.id || -1, pages[active]);
     }, [filesStore.files]);
 
+    async function onRequest(options: any) {
+        try {
+            const { file, onProgress, onSuccess } = options;
+            const response = await filesStore.uploadFiles(
+                file,
+                onProgress,
+                onSuccess,
+            );
+            console.log(response);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     return (
         <Card sx={{ padding: 3, display: "flex", height: "100%" }}>
             <div className="left_sidebar">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    endIcon={<Upload />}
-                    component="label"
-                >
-                    Upload file
-                    <input type="file" hidden />
-                </Button>
-
+                <Upload customRequest={onRequest} />
                 <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                     {pages.map((e, index) => (
                         <Button
+                            key={e}
                             fullWidth={true}
                             sx={{
                                 ":hover": {

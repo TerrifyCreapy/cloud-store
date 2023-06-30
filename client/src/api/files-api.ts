@@ -11,7 +11,7 @@ export class FilesApi {
             console.error(e)
         }
     }
-    public static async uploadFile(data: FormData, onProgress: (value: number) => void) {
+    public static async uploadFile(data: FormData, onProgress: (value: number) => void, onSuccess: () => void) {
         try{
             const response = await privateInstance.post(`/files`, data, {
                 headers: {"Content-Type": "multipart/form-data"},
@@ -19,6 +19,10 @@ export class FilesApi {
                     onProgress(progressEvent.loaded / (progressEvent.total || 0) * 100);
                 },
             });
+            onSuccess();
+            return response;
+
+
         }
         catch(e) {
             console.error(e);        }

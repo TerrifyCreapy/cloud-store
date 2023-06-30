@@ -85,7 +85,7 @@ __decorate([
         },
     }),
     (0, common_2.UseGuards)(jwt_guard_1.JwtAuthGuard),
-    __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({ validators: [new common_1.MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 })] }))),
+    __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({ validators: [new common_1.MaxFileSizeValidator({ maxSize: 1024 * 1024 * 500 })] }))),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Number]),

@@ -1,5 +1,6 @@
 import { FilesApi } from "../api/files-api";
 import { IFileEntity } from "../interfaces/entities/IFile";
+import { IUploadFile } from "../interfaces/entities/IUploadFile";
 
 export class FilesStore {
     files: IFileEntity[] = [];
@@ -23,9 +24,12 @@ export class FilesStore {
         }
     }
 
-    async uploadFiles(data: FormData, onProgress: (value: number) => void) {
+    async uploadFiles(data: IUploadFile, onProgress: (value: number) => void, onSuccess: () => void) {
         try {
-            const response = await FilesApi.uploadFile(data, onProgress);
+            const formData = new FormData();
+            formData.append("file", data);
+            const response = await FilesApi.uploadFile(formData, onProgress, onSuccess);
+            return response;
         }
         catch(e) {
             console.error(e);

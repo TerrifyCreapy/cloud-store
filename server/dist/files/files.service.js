@@ -33,7 +33,7 @@ let FilesService = class FilesService {
     findAll(id, fileType) {
         const dbq = this.repository.createQueryBuilder("files");
         dbq.where("files.userId = :userId", { userId: id });
-        if (fileType === "photos") {
+        if (fileType === "images") {
             dbq.andWhere("files.mime_type ILIKE :type", { type: "%image%" });
         }
         if (fileType === "trash") {

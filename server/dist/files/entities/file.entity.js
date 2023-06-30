@@ -14,7 +14,7 @@ const user_entity_1 = require("../../user/entities/user.entity");
 const typeorm_1 = require("typeorm");
 var FilesType;
 (function (FilesType) {
-    FilesType["PHOTOS"] = "photos";
+    FilesType["PHOTOS"] = "images";
     FilesType["TRASH"] = "trash";
 })(FilesType = exports.FilesType || (exports.FilesType = {}));
 let FileEntity = class FileEntity {

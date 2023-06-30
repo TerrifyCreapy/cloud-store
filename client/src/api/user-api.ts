@@ -1,7 +1,7 @@
 import { instance, cookie, privateInstance } from "./instance";
 
 class UserApi {
-    public static async login(email: string, password: string) {
+    public static async login(email: string, password: string): Promise<any> {
         try {
             const {data} = await instance.post("auth/login", {
                 email, password
@@ -19,8 +19,18 @@ class UserApi {
         
     }
 
-    public static async logout(){
-
+    public static logout(){
+        try {
+            if(!cookie.get("token")) throw new Error("Not token");
+            else {
+                cookie.remove("token");
+                return true;
+            }
+        }
+        catch(e: any) {
+            console.error(e.message);
+            return false;
+        }
     }
 
     public static async register(email: string, password: string): Promise<any> {

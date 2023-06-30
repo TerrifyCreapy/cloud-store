@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import AuthCard from "../components/AuthCard";
 import useStore from "../hooks/useStore";
 import { useNavigate } from "react-router-dom";
-import { files_path } from "../constants/routes";
+import { full_files_path } from "../constants/routes";
 
 const AuthPage: FC = () => {
     const { userStore } = useStore();
@@ -22,7 +22,7 @@ const AuthPage: FC = () => {
             data = await userStore.register(email, password);
         }
 
-        if (data) nav(files_path);
+        if (data) nav(full_files_path);
     };
 
     return (

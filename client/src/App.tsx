@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import useStore from "./hooks/useStore";
@@ -8,22 +8,21 @@ import "./styles/default.scss";
 import { mapRoutes } from "./utils/mapRoutes";
 import { privateRoutes, routes } from "./routes";
 import NotFoundPage from "./pages/NotFoundPage";
-import { auth_path, files_path } from "./constants/routes";
 
 const App: FC = observer(() => {
     const { userStore } = useStore();
     const { user } = userStore;
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const isAuth = userStore.isAuth();
-        isAuth ? navigate(files_path) : navigate(auth_path);
+        userStore.isAuth();
     }, []);
+
+    if (userStore.isLoading) return <div>Loading</div>;
 
     return (
         <Routes>
             {mapRoutes(routes)}
-            {user && mapRoutes(privateRoutes)}
+            {user && !userStore.isLoading && mapRoutes(privateRoutes)}
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );

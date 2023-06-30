@@ -1,19 +1,19 @@
 import { IPage } from "../interfaces/entities/IPage"
-import { files_path } from "./routes"
+import { files_path, full_files_path, full_profile_path } from "./routes"
 export const pages: IPage[] = [
     {
-        path: files_path,
+        path: full_files_path,
         text: "home",
     },
     {
-        path: files_path,
+        path: full_profile_path,
         text: "profile"
     }
 ];
 
 export const settings: (string | IPage)[] = [
     {
-        path: files_path,
+        path: full_profile_path,
         text: "profile"
     },
     "logout"

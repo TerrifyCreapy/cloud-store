@@ -6,6 +6,7 @@ import { cookie } from "../api/instance";
 
 class UserStore {
     user: IUser | null = null;
+    isLoading = false;
 
     rootStore: unknown;
 
@@ -56,8 +57,23 @@ class UserStore {
         }
     }
 
+    logout() {
+        try {
+            const result = UserApi.logout();
+            return result;
+        }
+        catch(e) {
+
+        }
+    }
+
+    setLoading(value: boolean) {
+        this.isLoading = value;
+    }
+
     isAuth() {
         try {
+            this.setLoading(true);
             const token = cookie.get("token");
             console.log(token);
             if(!token) {
@@ -72,6 +88,9 @@ class UserStore {
         }
         catch(e) {
             console.error(e);
+        }
+        finally{
+            this.setLoading(false);
         }
     }
 }

@@ -1,6 +1,6 @@
 import { UserEntity } from "src/user/entities/user.entity";
 export declare enum FilesType {
-    PHOTOS = "photos",
+    PHOTOS = "images",
     TRASH = "trash"
 }
 export declare class FileEntity {
